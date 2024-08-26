@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "sourceMap": true, // Generate source maps for debugging
+    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
+    "module": "ESNext", // Specify module code generation
+    "target": "ESNext", // Specify ECMAScript target version
+    "moduleResolution": "Node", // Use Node.js module resolution strategy
+    "noEmitOnError": false,
+    "strict": false, // Allow emitting files even if there are type errors
+    "baseUrl": ".", // Base directory to resolve non-relative module names
+    "paths": {
+      "@/*": ["src/*"] // Path mapping for module resolution
+    },
+    "outDir": "dist", // Output directory for compiled files
+    "rootDir": "src" // Root directory of input files
+  },
+  "include": ["src/**/*"], // Include all TypeScript files in the src directory
+  "exclude": ["node_modules", "**/*.spec.ts"] // Exclude node_modules and test files
+}
