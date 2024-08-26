@@ -29,4 +29,4 @@ EXPOSE 10000
 # CMD ["sh", "-c", "node dist/index.js & npm run generate:db:types"]
 
 # Run the start-and-generate script
-CMD ["./start-and-generate.sh"]
+CMD ["./start.sh"]
