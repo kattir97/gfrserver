@@ -21,11 +21,11 @@ async function run() {
 
 
   app.register(cors, {
-    // origin: 'https://gafar-client.onrender.com',
-    // methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    // allowedHeaders: ['Content-Type', 'Authorization'],
-    // credentials: true,
-    origin: '*'
+    origin: 'https://kattir97-gfrclient-7a56.twc1.net/',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    // origin: '*'
   });
 
 
