@@ -21,7 +21,7 @@ async function run() {
 
 
   app.register(cors, {
-    origin: 'https://kattir97-gfrclient-7a56.twc1.net/',
+    origin: 'https://kattir97-gfrclient-7a56.twc1.net',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
