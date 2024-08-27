@@ -16,8 +16,17 @@ COPY . .
 # Build the TypeScript files
 RUN npm run build
 
+# Copy bash script
+COPY start.sh .
+
+# Make the script executable
+RUN chmod +x start.sh
+
 # Open the port for the express server
 EXPOSE 10000
 
 # Run Fastify in the foreground and generate types for the database
-CMD ["sh", "-c", "node dist/index.js & npm run generate:db:types"]
+# CMD ["sh", "-c", "node dist/index.js & npm run generate:db:types"]
+
+# Run the start-and-generate script
+CMD ["./start.sh"]
