@@ -5,7 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "cross-env FASTIFY_AUTOLOAD_TYPESCRIPT=1 node --import tsx/esm --watch src/index.ts",
+    "dev": "NODE_ENV=development cross-env FASTIFY_AUTOLOAD_TYPESCRIPT=1 node --import tsx/esm --watch src/index.ts",
     "build": "tsc || true",
     "start": "node dist/index.js",
     "generate:db:types": "kysely-codegen"

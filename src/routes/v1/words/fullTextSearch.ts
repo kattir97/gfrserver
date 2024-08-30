@@ -17,10 +17,10 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
       .leftJoin('conjugations as c', 'w.id', 'c.word_id')
       .where((eb) =>
         eb.or([
-          eb('w.textsearchable_index_col', '@@', sql<any>`to_tsquery('simple', ${searchTerm})`),
-          eb('d.textsearchable_index_col', '@@', sql<any>`to_tsquery('simple', ${searchTerm})`),
-          eb('e.textsearchable_index_col', '@@', sql<any>`to_tsquery('simple', ${searchTerm})`),
-          eb('c.textsearchable_index_col', '@@', sql<any>`to_tsquery('simple', ${searchTerm})`),
+          eb('w.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          eb('d.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
         ])).
       groupBy('w.id')
       .select([

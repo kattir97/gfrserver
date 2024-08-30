@@ -18,15 +18,26 @@ async function run() {
   //   connectionString: "postgres://postgres:1412@localhost/dictionary",
   // });
 
-
-
-  app.register(cors, {
+  const corsConfig = process.env.NODE_ENV === 'production' ? {
     origin: 'https://kattir97-gfrclient-7a56.twc1.net',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
-    // origin: '*'
-  });
+  } : { origin: '*' }
+
+
+  app.register(cors, corsConfig);
+
+  //   {
+  //   origin: 'https://kattir97-gfrclient-7a56.twc1.net',
+  //   methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  //   credentials: true,
+  //   origin: '*'
+  // }
+
+
+  console.log(corsConfig);
 
 
   app.register(buildServer)
@@ -38,8 +49,7 @@ async function run() {
       port: Number(port),
       host: "0.0.0.0",
     });
-    console.log(
-    )
+    app.log.info(app.server.listen)
   } catch (err) {
     app.log.error(err);
     process.exit(1);
