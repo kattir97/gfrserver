@@ -4,5 +4,5 @@ export const normalizeQuery = (query: string) => {
     .replace(/l/g, '\u04CF') // Replace 'l' with U+04CF
     .replace(/1/g, '\u04CF'); // Replace '1' with U+04CF
 
-  return normalizedQuery;
+  return normalizedQuery.toLowerCase();
 }

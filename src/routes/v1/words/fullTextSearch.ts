@@ -9,7 +9,6 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
     const query = req.query.query;
     const searchTerm = normalizeQuery(query);
     const { db } = app;
-    console.log("FROM FULL TEXT:", searchTerm)
     let results = await db
       .selectFrom('words as w')
       .leftJoin('definitions as d', 'w.id', 'd.word_id')

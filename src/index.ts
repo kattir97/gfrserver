@@ -37,7 +37,6 @@ async function run() {
   // }
 
 
-  console.log(corsConfig);
 
 
   app.register(buildServer)
