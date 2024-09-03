@@ -18,8 +18,8 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
         eb.or([
           eb('w.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
           eb('d.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
-          eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
-          eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          // eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          // eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
         ])).
       groupBy('w.id')
       .select([
@@ -43,8 +43,8 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
         .where((eb) => eb.or([
           eb('w.word', 'ilike', `%${searchTerm}%`),
           eb('d.definition', 'ilike', `%${searchTerm}%`),
-          eb('e.example', 'ilike', `%${searchTerm}%`),
-          eb('c.conjugation', 'ilike', `%${searchTerm}%`),
+          // eb('e.example', 'ilike', `%${searchTerm}%`),
+          // eb('c.conjugation', 'ilike', `%${searchTerm}%`),
         ]))
         .groupBy('w.id')
         .select([

@@ -139,4 +139,8 @@ dist
 # SvelteKit build / generate output
 .svelte-kit
 
+/migrations
+
+knexfile.cjs
+
 # End of https://www.toptal.com/developers/gitignore/api/node
