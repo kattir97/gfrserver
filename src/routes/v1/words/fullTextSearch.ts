@@ -34,24 +34,24 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
       ])
       .execute();
 
-    if (results.length === 0) {
-      results = await db
-        .selectFrom('words as w')
-        .leftJoin('definitions as d', 'w.id', 'd.word_id')
-        .leftJoin('examples as e', 'w.id', 'e.word_id')
-        .leftJoin('conjugations as c', 'w.id', 'c.word_id')
-        .where((eb) => eb.or([
-          eb('w.word', 'ilike', `%${searchTerm}%`),
-          eb('d.definition', 'ilike', `%${searchTerm}%`),
-          // eb('e.example', 'ilike', `%${searchTerm}%`),
-          // eb('c.conjugation', 'ilike', `%${searchTerm}%`),
-        ]))
-        .groupBy('w.id')
-        .select([
-          'w.id',
-        ])
-        .execute();
-    }
+    // if (results.length === 0) {
+    //   results = await db
+    //     .selectFrom('words as w')
+    //     .leftJoin('definitions as d', 'w.id', 'd.word_id')
+    //     .leftJoin('examples as e', 'w.id', 'e.word_id')
+    //     .leftJoin('conjugations as c', 'w.id', 'c.word_id')
+    //     .where((eb) => eb.or([
+    //       eb('w.word', 'ilike', `%${searchTerm}%`),
+    //       eb('d.definition', 'ilike', `%${searchTerm}%`),
+    //       // eb('e.example', 'ilike', `%${searchTerm}%`),
+    //       // eb('c.conjugation', 'ilike', `%${searchTerm}%`),
+    //     ]))
+    //     .groupBy('w.id')
+    //     .select([
+    //       'w.id',
+    //     ])
+    //     .execute();
+    // }
 
     const ids = results.map((obj) => obj.id);
 
