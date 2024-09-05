@@ -9,6 +9,9 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
     const query = req.query.query;
     const searchTerm = normalizeQuery(query);
     const { db } = app;
+
+
+
     let results = await db
       .selectFrom('words as w')
       .leftJoin('definitions as d', 'w.id', 'd.word_id')
@@ -18,51 +21,35 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
         eb.or([
           eb('w.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
           eb('d.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
-          // eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
-          // eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
         ])).
       groupBy('w.id')
       .select([
         'w.id',
-        // 'w.word',
-        // sql`array_agg(DISTINCT d.definition)`.as('definitions'),
-        // sql`array_agg(DISTINCT e.example)`.as('examples'),
-        // sql`array_agg(DISTINCT e.translation)`.as('example_translations'),
-        // sql`array_agg(DISTINCT c.morfant)`.as('morfant'),
-        // sql`array_agg(DISTINCT c.conjugation)`.as('conjugations'),
-        // sql`array_agg(DISTINCT c.translation)`.as('conjugation_translations'),
       ])
       .execute();
 
-    // if (results.length === 0) {
-    //   results = await db
-    //     .selectFrom('words as w')
-    //     .leftJoin('definitions as d', 'w.id', 'd.word_id')
-    //     .leftJoin('examples as e', 'w.id', 'e.word_id')
-    //     .leftJoin('conjugations as c', 'w.id', 'c.word_id')
-    //     .where((eb) => eb.or([
-    //       eb('w.word', 'ilike', `%${searchTerm}%`),
-    //       eb('d.definition', 'ilike', `%${searchTerm}%`),
-    //       // eb('e.example', 'ilike', `%${searchTerm}%`),
-    //       // eb('c.conjugation', 'ilike', `%${searchTerm}%`),
-    //     ]))
-    //     .groupBy('w.id')
-    //     .select([
-    //       'w.id',
-    //     ])
-    //     .execute();
-    // }
-
     const ids = results.map((obj) => obj.id);
 
-    const words = []
-
-    for (let id of ids) {
-      const res = await getWordData(db, id);
-      words.push(res);
+    // Check if no word IDs were found
+    if (ids.length === 0) {
+      return [];  // Return empty result if no matching word IDs found
     }
 
-    return words;
+
+    // const words = []
+
+    // for (let id of ids) {
+    //   const res = await getWordData(db, id);
+    //   words.push(res);
+    // }
+
+    // return words;
+
+    // ======================================================= //
+
+    return await getWordData(db, ids)
   });
 }
 

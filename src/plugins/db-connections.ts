@@ -38,9 +38,9 @@ const dialect = new PostgresDialect({
     user: config.default.user,
     password: config.default.password,
     database: config.default.db,
-    ssl: {
-      rejectUnauthorized: false
-    }
+    // ssl: {
+    //   rejectUnauthorized: true
+    // }
   })
 })
 
