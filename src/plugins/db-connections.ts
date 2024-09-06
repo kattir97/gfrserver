@@ -30,23 +30,39 @@ const config = envSchema<Static<typeof DatabaseConnectionsConfigSchema>>({
   },
 })
 
+let dialect: PostgresDialect;
 
-const dialect = new PostgresDialect({
-  pool: new pg.Pool({
-    host: config.default.host,
-    port: config.default.port,
-    user: config.default.user,
-    password: config.default.password,
-    database: config.default.db,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  })
-})
 
-export const db = new Kysely<DB>({
-  dialect,
-});
+if (process.env.NODE_ENV === 'production') {
+  dialect = new PostgresDialect({
+    pool: new pg.Pool({
+      host: config.default.host,
+      port: config.default.port,
+      user: config.default.user,
+      password: config.default.password,
+      database: config.default.db,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    })
+  });
+} else {
+  dialect = new PostgresDialect({
+    pool: new pg.Pool({
+      host: config.default.host,
+      port: config.default.port,
+      user: config.default.user,
+      password: config.default.password,
+      database: config.default.db,
+    })
+  });
+}
+
+
+
+// export const db = new Kysely<DB>({
+//   dialect,
+// });
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -55,7 +71,6 @@ declare module 'fastify' {
 }
 
 export default fp(async (fastify) => {
-  console.log()
   const db = new Kysely<DB>({
     dialect,
   });

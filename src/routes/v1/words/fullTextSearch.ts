@@ -21,8 +21,8 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
         eb.or([
           eb('w.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
           eb('d.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
-          eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
-          eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          // eb('e.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
+          // eb('c.textsearchable_index_col', '@@', sql<any>`plainto_tsquery('simple', ${searchTerm})`),
         ])).
       groupBy('w.id')
       .select([
@@ -36,18 +36,6 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
     if (ids.length === 0) {
       return [];  // Return empty result if no matching word IDs found
     }
-
-
-    // const words = []
-
-    // for (let id of ids) {
-    //   const res = await getWordData(db, id);
-    //   words.push(res);
-    // }
-
-    // return words;
-
-    // ======================================================= //
 
     return await getWordData(db, ids)
   });
