@@ -32,6 +32,7 @@ const routes: FastifyPluginAsyncTypebox = async (app) => {
 
     const ids = results.map((obj) => obj.id);
 
+
     // Check if no word IDs were found
     if (ids.length === 0) {
       return [];  // Return empty result if no matching word IDs found

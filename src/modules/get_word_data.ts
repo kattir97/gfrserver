@@ -12,9 +12,8 @@ export const getWordData = async (db: Kysely<DB>, ids: number[]) => {
       .leftJoin('wordtags as wt', 'w.id', 'wt.word_id')
       .leftJoin('tags as t', 't.id', 'wt.tag_id')
       .where('w.id', 'in', ids)
+      .selectAll('w')
       .select([
-        'w.id as word_id',
-        'w.word',
         'd.definition',
         'e.example',
         'e.translation as example_translation',
@@ -25,17 +24,18 @@ export const getWordData = async (db: Kysely<DB>, ids: number[]) => {
       ])
       .execute();
 
+    console.log('words', words)
+
     // Step 3: Process and de-duplicate the results
     const wordMap: Record<number, any> = {};
 
     for (const row of words) {
-      const wordId = row.word_id;
+      const wordId = row.id;
 
       // Initialize the word entry if it doesn't exist
       if (!wordMap[wordId]) {
         wordMap[wordId] = {
-          id: wordId,
-          word: row.word,
+          ...row,
           definitions: new Set(),   // Use Set to avoid duplicates
           examples: new Set(),
           conjugations: new Set(),
@@ -71,7 +71,6 @@ export const getWordData = async (db: Kysely<DB>, ids: number[]) => {
       }
     }
 
-    console.log('wordMap', wordMap)
 
     // Step 4: Convert sets to arrays and return the results
     const result = Object.values(wordMap).map((word) => ({
@@ -82,6 +81,8 @@ export const getWordData = async (db: Kysely<DB>, ids: number[]) => {
       tags: Array.from(word.tags),
     }));
 
+
+    console.log('result', result)
     return result;
   } catch (error: any) {
     throw new Error(`Error retrieving word data: ${error.message}`);
